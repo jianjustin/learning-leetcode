@@ -2,9 +2,6 @@ package org.learning.leetcode.sort;
 
 public class InsertingSorts {
 
-    /**
-     * 插入排序
-     */
     public static void insertSort(int[] a) {
         int i, j, insertNote;
         for (i = 1; i < a.length; i++) {
@@ -16,5 +13,14 @@ public class InsertingSorts {
             }
             a[j + 1] = insertNote;
         }
+    }
+
+    public static void main(String[] args){
+        int[] arr = {2,1,5,34,3,67};
+        insertSort(arr);
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i]+"   ");
+        }
+
     }
 }
