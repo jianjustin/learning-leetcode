@@ -1,7 +1,10 @@
+import java.util.ArrayList;
+
 /**
  * 钢条切割问题
  */
 public class Solution {
+     ArrayList a;
     public int cutting(int[] p , int n){
         int q = 0;
         if (0 == n)return 0;
