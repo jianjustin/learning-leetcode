@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 基于父节点表示法的树实现
@@ -7,6 +9,7 @@ import java.util.List;
 public class PTree<T> {
 
     private List<TNode<T>> tree;
+    Set
     private int n;
 
     //创建空树
