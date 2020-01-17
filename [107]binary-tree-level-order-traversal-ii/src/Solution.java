@@ -28,7 +28,7 @@ public class Solution {
         }
         Collections.reverse(result);
 
-        return result;;
+        return result;
     }
 
     public void levelTraverse(TreeNode root) {
