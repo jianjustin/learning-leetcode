@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * BM算法｜字符串匹配算法
  */
@@ -9,12 +12,14 @@ public class BM {
         int tLen = target.length() , pLen = pattern.length();
         if (pLen > tLen) return -1;
 
-        int[] bad_table = build_bad_table(pattern) , good_table = build_good_table(pattern);
+        int[]  good_table = build_good_table(pattern);
+        Map<Character,Integer> bad_table = build_bad_table(pattern);
 
         for (int i = pLen - 1, j; i < tLen;) {
             for (j = pLen - 1; target.charAt(i) == pattern.charAt(j); i--, j--)
                 if (j == 0) return i;
-            i += Math.max(good_table[pLen - j - 1], bad_table[target.charAt(i)]);
+            int a = null == bad_table.get(target.charAt(i))?pattern.length():bad_table.get(target.charAt(i));
+            i += Math.max(good_table[pLen - j - 1], a);
         }
         return -1;
     }
@@ -22,17 +27,11 @@ public class BM {
     /**
      * 字符信息表
      */
-    public static int[] build_bad_table(String pattern) {
-        int table_size = 256 , len = pattern.length();
-        int[] bad_table = new int[table_size];
-
-        for (int i = 0; i < bad_table.length; i++)
-            bad_table[i] = len;
-
-        for (int i = 0; i < len - 1; i++)
-            bad_table[pattern.charAt(i)] = len - 1 - i;
-
-        return bad_table;
+    public static Map<Character,Integer> build_bad_table(String pattern) {
+        Map<Character,Integer> map = new HashMap<Character, Integer>();
+        for (int i = 0; i < pattern.length() - 1; i++)
+            map.put(pattern.charAt(i),pattern.length()-i-1);//计算字符最后出现位置
+        return map;
     }
 
     /**
@@ -43,8 +42,7 @@ public class BM {
         int[] good_table = new int[pLen];
 
         for (int i = pLen - 1; i >= 0; --i) {
-            if (isPrefix(pattern, i + 1))
-                lastPrefixPosition = i + 1;
+            if (isPrefix(pattern, i + 1))lastPrefixPosition = i + 1;
             good_table[pLen - 1 - i] = lastPrefixPosition - i + pLen - 1;
         }
 
@@ -59,8 +57,7 @@ public class BM {
      * 前缀匹配
      */
     public static boolean isPrefix(String pattern, int p) {
-        int patternLength = pattern.length();
-        for (int i = p, j = 0; i < patternLength; ++i, ++j)
+        for (int i = p, j = 0; i < pattern.length(); ++i, ++j)
             if (pattern.charAt(i) != pattern.charAt(j)) return false;
         return true;
     }
@@ -70,7 +67,7 @@ public class BM {
      */
     public static int suffixLength(String pattern, int p) {
         int pLen = pattern.length() , len = 0;
-        for (int i = p, j = pLen - 1; i >= 0 && pattern.charAt(i) == pattern.charAt(j); i--, j--)
+        for (int i = p, j = pLen = pattern.length() - 1; i >= 0 && pattern.charAt(i) == pattern.charAt(j); i--, j--)
             len++;
         return len;
     }
